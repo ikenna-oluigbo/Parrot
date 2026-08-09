@@ -10,6 +10,11 @@ The entire scripts are written in Python 3 and on VS Code IDE. The dependencies 
 The Text-to-speech architecture which enables the audio response of the **Parrot model** runs entirely on the Kokoro TTS, a text-to-speech model with 82M parameters supporting GPU acceleration. 
 For this project, we hosted the Kokoro TTS on a Docker Container. To test and run this project locally, install Docker on your machine and install a pre-built Kokoro-FastAPI image. 
 
+For CPU machines, pull and run this community-maintained Koko-FastAPI Image:
 ```python
-def hello():
-    print("Hello, world!")   
+docker run -p 8880:8880 ghcr.io/remsky/kokoro-fastapi-cpu:latest      
+```
+For machines with GPU acceleration, pull and run this CUDA-enables Image: 
+```python
+docker run --gpus all -p 8880:8880 ghcr.io/remsky/kokoro-fastapi-gpu:latest   
+```
