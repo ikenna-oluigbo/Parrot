@@ -18,7 +18,21 @@ For machines with GPU acceleration, pull and run this CUDA-enables Image:
 ```python
 docker run --gpus all -p 8880:8880 ghcr.io/remsky/kokoro-fastapi-gpu:latest   
 ```
-The API endpoint at **http://localhost:8880/v1/** is already embedded in the code. Just start the Kokoro TTS container in Docker and run the project. 
+The API endpoint at **http://localhost:8880/v1/** is already embedded in the scripts. Just start the Kokoro TTS container in Docker and run the project. 
 
 ## Web Interface
-The Parrot model uses **streamlit app** @ <a href="https://streamlit.io" target="_blank">Streamlit</a> streamlit.io to display a GUI. Again,
+The Parrot model uses **streamlit app** @ <a href="https://streamlit.io" target="_blank">Streamlit</a> to display a GUI. Again, the required syntax to enable a streamlit web interface is written in the scripts. Upon starting the docker and running the model, the web interface opens up to allow for the upload of files.
+
+## Additional Information 
+- Since Parrot uses the OpenAI embedding, you need to have the OpenAI API key to run the model.
+- You may delete the uploaded vector knowledge base with pre-trained embeddings, if you wish to start a new knowledge base. Upon running the model, it detects the absence of a vector DB and automatically creates one after uploading your document(s).
+- If you prefer a cloud TTS service rather than a locally installed TTS image in a docker container, you may consider ElevenLabs AI (which requires a paid API key). To do this, do the following:
+  ```python
+  Create an Elevenlabs account at https://elevenlabs.io/ and pay a subscription fee as low as $6 to use the API for TTS services
+  Execute this command in your terminal or command prompt: pip install elevenlabs
+  In voice_knowledge.py script, add the line: from elevenlabs.client import ElevenLabs
+  In the VoiceGenerator class initializer, use this client instead: self.client = ElevenLabs(api_key) where api_key is your Elevenlabs api key. Check the Elevenlabs voice libraries for list of available voices and the voice_id.
+  ```
+- This is the first version of the model. Subsequently, there will be updates to the model.
+  
+- 
