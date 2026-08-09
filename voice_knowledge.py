@@ -21,7 +21,6 @@ from langchain_classic.document_loaders import (
 
 import pprint
 import tempfile
-from ap_keys import my_api_key
 import os
 from typing import List
 from openai import OpenAI
@@ -30,14 +29,13 @@ from voice_knowledge_query_expander import *
 from voice_knowledge_compression import extract_relevant_doc
 from langchain_classic.prompts import PromptTemplate
 
-OPENAI_API_KEY, CORE_API_KEY, ELEVENLABS_API_KEY, GEMINI_API_KEY, COHERE_API_KEY = my_api_key()
 
 class DocumentProcessor:
     def __init__(self):
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000, chunk_overlap=200, separators=["\n\n", "\n", ". ", " ", ""]
         )
-        self.embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY, model="text-embedding-3-small")
+        self.embeddings = OpenAIEmbeddings(api_key=<ADD YOUR OPENAI_API_KEY>, model="text-embedding-3-small")
 
     def load_documents(self, directory: str) -> List[Document]:
         """Load documents from different file types"""
@@ -137,7 +135,7 @@ class VoiceGenerator:
 class VoiceAssistantRAG:
     def __init__(self):
         self.whisper_model = whisper.load_model("base")
-        self.llm = ChatOpenAI(api_key=OPENAI_API_KEY, model_name="gpt-5.4", temperature=0)
+        self.llm = ChatOpenAI(api_key=<ADD YOUR OPENAI_API_KEY>, model_name="gpt-5.4", temperature=0)
         self.embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY, model="text-embedding-3-small")
         self.vector_store = None
         self.qa_chain = None
@@ -196,16 +194,9 @@ def text_summary(input_text):
     from sumy.nlp.tokenizers import Tokenizer
     from sumy.summarizers.lsa import LsaSummarizer
 
-    # 1. Parse the text
     parser = PlaintextParser.from_string(input_text, Tokenizer("english"))
-
-    # 2. Initialize the summarizer
     summarizer_lsa = LsaSummarizer()
-
-    # 3. Generate the summary (2 sentences)
     summary = summarizer_lsa(parser.document, 2)
-
-    # 4. Convert to string
     final_summary = ' '.join([str(sentence) for sentence in summary])   
     
     return final_summary
@@ -258,7 +249,7 @@ def main():
 
     # Check for API keys
     #elevenlabs_api_key = ELEVENLABS_API_KEY
-    openai_api_key = OPENAI_API_KEY
+    openai_api_key = <ADD YOUR OPENAI_API_KEY>
 
     if not openai_api_key:
         st.error(
@@ -379,7 +370,6 @@ def main():
                             input_variables=list(("questions", "contexts"))
                         )
                                                     
-                        
                         response = assistant.generate_response(
                             prompt.format(questions=" ".join(all_query),
                                           contexts=" ".join(all_extracted_doc))
