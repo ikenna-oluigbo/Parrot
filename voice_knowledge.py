@@ -4,7 +4,6 @@ import sounddevice as sd
 import soundfile as sf
 #from elevenlabs.client import ElevenLabs
 
-
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
@@ -188,7 +187,7 @@ class VoiceAssistantRAG:
         """Convert text to speech"""
         return self.voice_generator.generate_voice_response(text, voice_name)
 
-
+#Summarizing long strings of document using the trusted LSA Summarizer
 def text_summary(input_text):
     from sumy.parsers.plaintext import PlaintextParser
     from sumy.nlp.tokenizers import Tokenizer
@@ -248,7 +247,6 @@ def main():
     st.set_page_config(page_title="Voice RAG Assistant", layout="wide")
 
     # Check for API keys
-    #elevenlabs_api_key = ELEVENLABS_API_KEY
     openai_api_key = <ADD YOUR OPENAI_API_KEY>
 
     if not openai_api_key:
@@ -325,8 +323,7 @@ def main():
 
                 with st.spinner("Generating response..."):
                     try:
-                        
-                        
+                         
                         all_relevant_docs = []
                         query_expander = QueryExpander()           #Import from voice_knowledge_query_expander.py
                         expanded_queries = query_expander.expand_query(query)
@@ -373,9 +370,8 @@ def main():
                         response = assistant.generate_response(
                             prompt.format(questions=" ".join(all_query),
                                           contexts=" ".join(all_extracted_doc))
-                        )
-                        
-                        # response = assistant.generate_response(query)
+                        )                    
+    
                         st.write("Response:", response)
                         st.session_state.last_response = response
                     except Exception as e:
