@@ -18,3 +18,7 @@ For machines with GPU acceleration, pull and run this CUDA-enables Image:
 ```python
 docker run --gpus all -p 8880:8880 ghcr.io/remsky/kokoro-fastapi-gpu:latest   
 ```
+The API endpoint at **http://localhost:8880/v1/** is already embedded in the code. Just start the Kokoro TTS container in Docker and run the project. 
+
+## Web Interface
+The Parrot model uses **streamlit app** @ <a href="https://streamlit.io" target="_blank">Streamlit</a> streamlit.io to display a GUI. Again,
